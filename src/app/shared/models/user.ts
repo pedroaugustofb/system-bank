@@ -4,6 +4,6 @@ export type User = {
     cpf: string
     email: string
     senha: string
-    status: boolean
-    criado_em: string
+    ativo: boolean
+    observacoes: string
 }

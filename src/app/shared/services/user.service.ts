@@ -13,21 +13,20 @@ interface Pagination {
   providedIn: 'root'
 })
 export class UserService {
-  private api: string = `${environment.api}`
+  private readonly api: string = `${environment.api}/clientes`
 
-  private http: HttpClient = Inject(HttpClient)
+  constructor(private readonly http: HttpClient) {}
 
   getUser(userId: User['id']): Observable<User> {
     return this.http.get<User>(`${this.api}${userId}`)
   }
 
-  listUsers(pagination?: Pagination): Observable<User[]> {
-    let url = this.api
+  listUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.api)
+  }
 
-    if(pagination){
-      `${url}?page=${pagination.page}&pageSize=${pagination.pageSize}`
-    }
-
+  listUsersPaginated(pagination: Pagination): Observable<User[]> {
+    const url = `${this.api}?page=${pagination.page}&pageSize=${pagination.pageSize}`
     return this.http.get<User[]>(url)
   }
 
